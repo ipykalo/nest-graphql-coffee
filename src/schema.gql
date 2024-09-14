@@ -2,22 +2,53 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-"""Coffee model"""
-type Coffee {
-  """Unique ID"""
-  id: ID!
+interface Drink {
   name: String!
-  brand: String!
-  flavors: [String!]!
 }
 
-type Query {
+"""Flavor model"""
+type Flavor {
+  id: ID!
+  name: String!
   coffees: [Coffee!]!
-  coffee(id: ID!): Coffee
+}
+
+"""Coffee model"""
+type Coffee implements Drink {
+  name: String!
+
+  """Unique ID"""
+  id: ID!
+  brand: String!
+  flavors: [Flavor!]!
+  createdAt: Date
+}
+
+"""Tea model"""
+type Tea implements Drink {
+  name: String!
+
+  """Unique ID"""
+  id: ID!
+}
+
+scalar Date
+
+type Query {
+  drinks: [Drink!]!
+  coffees: [Coffee!]!
+  coffee(id: ID!): Coffee!
+  teas: [Tea!]!
+  tea(id: ID!): Tea!
 }
 
 type Mutation {
-  createCoffee(createCoffeeInput: CreateCoffeeInput!): Coffee
+  createCoffee(createCoffeeInput: CreateCoffeeInput!): Coffee!
+  updateCoffee(id: Float!, updateCoffeeInput: UpdateCoffeeInput!): Coffee!
+  removeCoffee(id: Float!): Coffee!
+  createTea(createTeaInput: CreateTeaInput!): Tea!
+  updateTea(id: Float!, updateTeaInput: UpdateTeaInput!): Tea!
+  removeTea(id: Float!): Tea!
 }
 
 """Create coffee input object"""
@@ -30,4 +61,26 @@ input CreateCoffeeInput {
 
   """flavors"""
   flavors: [String!]!
+}
+
+input UpdateCoffeeInput {
+  """A coffee name"""
+  name: String
+
+  """A brand of coffee"""
+  brand: String
+
+  """flavors"""
+  flavors: [String!]
+}
+
+"""Create tea object"""
+input CreateTeaInput {
+  """Name of the Tea"""
+  name: String!
+}
+
+input UpdateTeaInput {
+  """Name of the Tea"""
+  name: String
 }
