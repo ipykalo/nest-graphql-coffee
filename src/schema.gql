@@ -98,3 +98,7 @@ input UpdateTeaInput {
   """Name of the Tea"""
   name: String
 }
+
+type Subscription {
+  coffeeAdded: Coffee
+}
