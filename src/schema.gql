@@ -2,10 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-interface Drink {
-  name: String!
-}
-
 """Flavor model"""
 type Flavor {
   id: ID!
@@ -22,6 +18,16 @@ type Coffee implements Drink {
   brand: String!
   flavors: [Flavor!]!
   createdAt: Date
+  type: CoffeeType
+}
+
+interface Drink {
+  name: String!
+}
+
+enum CoffeeType {
+  ARABICA
+  ROBUSTA
 }
 
 """Tea model"""
@@ -35,12 +41,14 @@ type Tea implements Drink {
 scalar Date
 
 type Query {
-  drinks: [Drink!]!
+  drinks: [DrinksResult!]!
   coffees: [Coffee!]!
   coffee(id: ID!): Coffee!
   teas: [Tea!]!
   tea(id: ID!): Tea!
 }
+
+union DrinksResult = Coffee | Tea
 
 type Mutation {
   createCoffee(createCoffeeInput: CreateCoffeeInput!): Coffee!
@@ -61,6 +69,9 @@ input CreateCoffeeInput {
 
   """flavors"""
   flavors: [String!]!
+
+  """Coffee Type"""
+  type: CoffeeType!
 }
 
 input UpdateCoffeeInput {
@@ -72,6 +83,9 @@ input UpdateCoffeeInput {
 
   """flavors"""
   flavors: [String!]
+
+  """Coffee Type"""
+  type: CoffeeType
 }
 
 """Create tea object"""

@@ -9,6 +9,8 @@ import {
 } from 'typeorm';
 import { Flavor } from './flavor.entity';
 import { Drink } from '../../common/interfaces/drink.interface';
+import { CoffeeType } from '../../common/enums/coffee-type.enum';
+import { loggerMiddleware } from '../../common/middleware/logger.middleware';
 
 @Entity()
 @ObjectType({ implements: () => Drink, description: 'Coffee model' })
@@ -19,6 +21,9 @@ export class Coffee implements Drink {
   id: number;
 
   @Column()
+  @Field({
+    middleware: [loggerMiddleware],
+  })
   name: string;
 
   @Column()
@@ -32,4 +37,9 @@ export class Coffee implements Drink {
 
   @CreateDateColumn()
   createdAt?: Date;
+
+  @Column({
+    nullable: true,
+  })
+  type?: CoffeeType;
 }
