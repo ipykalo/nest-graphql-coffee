@@ -76,3 +76,7 @@ Nest is [MIT licensed](LICENSE).
 
 - Code First - master branch
 - Schema First - schema-first branch
+
+## Generate Schema from defined type run:
+
+- npx ts-node src/generate-types

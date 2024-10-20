@@ -5,6 +5,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CoffeesModule } from './coffees/coffees.module';
 
 @Module({
   imports: [
@@ -21,13 +22,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      installSubscriptionHandlers: true,
-      subscriptions: {
-        'graphql-ws': true,
-        'subscriptions-transport-ws': true,
-      },
+      typePaths: ['./**/*.graphql'],
+
+      //autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      // installSubscriptionHandlers: true,
+      // subscriptions: {
+      //   'graphql-ws': true,
+      //   'subscriptions-transport-ws': true,
+      // },
     }),
+    CoffeesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
